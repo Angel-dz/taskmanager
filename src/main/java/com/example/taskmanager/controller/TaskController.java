@@ -29,6 +29,11 @@ public class TaskController {
         return ResponseEntity.ok(updated);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Task> getTask(@PathVariable Long id) {
+        return ResponseEntity.ok(taskService.getById(id));
+    }
+
     public static class TaskCreateRequest {
         private String title;
         private String description;

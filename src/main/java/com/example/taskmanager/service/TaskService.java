@@ -2,6 +2,7 @@ package com.example.taskmanager.service;
 
 import com.example.taskmanager.domain.Status;
 import com.example.taskmanager.domain.Task;
+import com.example.taskmanager.domain.exception.TaskNotFoundException;
 import com.example.taskmanager.repository.TaskRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -27,4 +28,10 @@ public class TaskService {
         task.changeStatus(newStatus);
         return taskRepository.save(task);
     }
+
+    public Task getById(Long id) {
+        return taskRepository.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException(id));
+    }
+
 }
