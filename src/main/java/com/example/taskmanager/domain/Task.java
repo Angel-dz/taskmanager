@@ -1,5 +1,6 @@
 package com.example.taskmanager.domain;
 
+import com.example.taskmanager.domain.exception.InvalidStatusTransitionException;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -33,6 +34,9 @@ public class Task {
     }
 
     public void changeStatus(Status newStatus) {
+        if (!this.status.canTransitionTo(newStatus)) {
+            throw new InvalidStatusTransitionException(this.status, newStatus);
+        }
         this.status = newStatus;
     }
 
