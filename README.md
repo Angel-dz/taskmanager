@@ -5,11 +5,11 @@ The focus is on domain modeling, state transitions, and business rules, rather t
 This repository is part of a personal backend portfolio.
 
 ## Key Features
-Task lifecycle with explicit workflow rules
-* Validated state transitions (no invalid states possible)
-* Backend-driven workflow (single source of truth)
-* Clean separation between domain, application, and API layers
-* Domain-level tests for workflow validation
+- Task lifecycle modeled with explicit workflow rules
+- Domain-enforced state transitions (invalid states are impossible)
+- Backend-driven workflow (single source of truth)
+- Clear separation between domain, application, and API layers
+- Domain-level tests validating business behavior
 
 ## Domain Overview
 ### Task
@@ -26,9 +26,9 @@ Responsibilities:
 * Act as the source of truth for workflow rules
 
 Current workflow:
-
+```
 TODO <--> IN_PROGRESS <--> DONE
-
+```
 ## Domain Model Diagram
 The diagram below represents the core domain model.
 It intentionally excludes technical and infrastructure concerns.
@@ -45,18 +45,44 @@ From a backend perspective:
 * State changes are treated as business actions
 
 ## Architecture
-The project follows a layered architecture with a rich domain model:
-* Domain – business rules and workflow logic
-* Application – use case orchestration
-* API – HTTP endpoints and error handling
 
-The domain is framework-agnostic and independent of infrastructure.
+The project follows a layered architecture with a rich domain model:
+
+- **Domain** – business rules, workflow logic, and state validation
+- **Application** – orchestration of use cases
+- **API** – HTTP endpoints, input/output mapping, and error handling
+
+The domain layer is independent of frameworks and infrastructure concerns.
 
 ## Testing
 * Domain behavior is tested in isolation
 * No Spring context is required for domain tests
 * Workflow rules are covered by unit tests
 
+## How to Run Locally
+
+### Prerequisites
+- Java 17+
+- Gradle (or use the Gradle wrapper)
+
+### Steps
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/your-username/task-manager.git
+    cd task-manager
+   ```
+2. Run the application:
+    ```bash
+    ./gradlew bootRun
+   ```
+    (On Windows)
+   ```bash
+   gradlew.bat bootRun
+   ```
+4. The application will start on:
+   http://localhost:8080
+   
 ## Out of Scope (for now)
 * Users and permissions
 * Configurable workflows

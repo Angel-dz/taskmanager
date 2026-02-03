@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
@@ -24,14 +26,19 @@ public class TaskController {
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<Task> changeStatus(@PathVariable Long id, @RequestBody StatusChangeRequest request) {
-        Task updated = taskService.changeStatus(id, request.getStatus());
+    public ResponseEntity<Task> changeStatusTo(@PathVariable Long id, @RequestBody StatusChangeRequest request) {
+        Task updated = taskService.changeStatusTo(id, request.getStatus());
         return ResponseEntity.ok(updated);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTask(@PathVariable Long id) {
         return ResponseEntity.ok(taskService.getById(id));
+    }
+
+    @GetMapping("/tasks/{id}/available-statuses")
+    public ResponseEntity<Set<Status>> getAvailableStatuses(@PathVariable Long id) {
+        return ResponseEntity.ok(taskService.getAvailableStatuses(id));
     }
 
     public static class TaskCreateRequest {

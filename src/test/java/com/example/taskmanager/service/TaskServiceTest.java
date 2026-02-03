@@ -48,7 +48,7 @@ public class TaskServiceTest {
         when(taskRepository.findById(1L)).thenReturn(Optional.of(task));
         when(taskRepository.save(any(Task.class))).thenReturn(task);
 
-        Task updated = taskService.changeStatus(1L, Status.IN_PROGRESS);
+        Task updated = taskService.changeStatusTo(1L, Status.IN_PROGRESS);
 
         assertEquals(Status.IN_PROGRESS, updated.getStatus());
         verify(taskRepository).findById(1L);
@@ -60,7 +60,7 @@ public class TaskServiceTest {
         when(taskRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            taskService.changeStatus(1L, Status.DONE);
+            taskService.changeStatusTo(1L, Status.DONE);
         });
 
         assertEquals("Task not found", exception.getMessage());
