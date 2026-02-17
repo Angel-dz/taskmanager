@@ -1,9 +1,7 @@
 package com.example.taskmanager.domain;
 
 import com.example.taskmanager.domain.exception.InvalidStatusTransitionException;
-import com.example.taskmanager.domain.exception.TaskNotFoundException;
 import jakarta.persistence.*;
-import lombok.Getter;
 
 import java.util.Set;
 
@@ -18,7 +16,6 @@ import java.util.Set;
  *
  * <p>Persistence-related concerns are handled via JPA annotations.</p>
  */
-@Getter
 @Entity
 @Table(name = "tasks")
 public class Task {
@@ -37,6 +34,21 @@ public class Task {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+    public Status getStatus() {
+        return status;
+    }
 
     /**
      * Protected no-args constructor required by JPA.
@@ -75,7 +87,13 @@ public class Task {
         this.status = newStatus;
     }
 
+    /**
+     *  Returns the set of statuses the task can transition to from the current status.
+     *
+     * @return set of allowed target statuses
+     */
     public Set<Status> getAvailableStatuses() {
         return this.getStatus().nextAllowedStatuses();
     }
+
 }

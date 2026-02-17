@@ -36,7 +36,7 @@ public class TaskController {
         return ResponseEntity.ok(taskService.getById(id));
     }
 
-    @GetMapping("/tasks/{id}/available-statuses")
+    @GetMapping("/{id}/available-statuses")
     public ResponseEntity<Set<Status>> getAvailableStatuses(@PathVariable Long id) {
         return ResponseEntity.ok(taskService.getAvailableStatuses(id));
     }
