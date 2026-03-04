@@ -66,6 +66,9 @@ public class Task {
      * @param description optional detailed description
      */
     public Task(String title, String description) {
+        if (title == null || title.isBlank()) {
+            throw new IllegalArgumentException("Title cannot be null or blank");
+        }
         this.title = title;
         this.description = description;
         this.status = Status.TODO;
@@ -77,14 +80,18 @@ public class Task {
      * <p>The transition is validated according to the rules defined
      * in the {@link Status} enum.</p>
      *
-     * @param newStatus the new status to transition to
+     * @param targetStatus the new status to transition to
      * @throws InvalidStatusTransitionException if the transition is not allowed
      */
-    public void changeStatus(Status newStatus) {
-        if (!this.status.canTransitionTo(newStatus)) {
-            throw new InvalidStatusTransitionException(this.status, newStatus);
+    public void moveTo(Status targetStatus) {
+        if (targetStatus == null) {
+            throw new IllegalArgumentException("Target status cannot be null");
         }
-        this.status = newStatus;
+
+        if (!this.status.canTransitionTo(targetStatus)) {
+            throw new InvalidStatusTransitionException(this.status, targetStatus);
+        }
+        this.status = targetStatus;
     }
 
     /**

@@ -1,6 +1,5 @@
 package com.example.taskmanager.domain;
 
-import java.util.EnumSet;
 import java.util.Set;
 
 public enum Status {
@@ -8,16 +7,20 @@ public enum Status {
     IN_PROGRESS,
     DONE;
 
+    private Set<Status> allowedTransitions;
+
+    static {
+        TODO.allowedTransitions = Set.of(IN_PROGRESS);
+        IN_PROGRESS.allowedTransitions = Set.of(TODO, DONE);
+        DONE.allowedTransitions = Set.of(IN_PROGRESS);
+    }
+
     public Set<Status> nextAllowedStatuses() {
-        return switch (this) {
-            case TODO -> EnumSet.of(IN_PROGRESS);
-            case IN_PROGRESS -> EnumSet.of(TODO, DONE);
-            case DONE -> EnumSet.of(IN_PROGRESS);
-        };
+        return allowedTransitions;
     }
 
     public boolean canTransitionTo(Status target) {
-        return nextAllowedStatuses().contains(target);
+        return allowedTransitions.contains(target);
     }
 
 }
